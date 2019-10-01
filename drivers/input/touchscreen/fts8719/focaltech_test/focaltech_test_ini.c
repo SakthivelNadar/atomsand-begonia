@@ -133,7 +133,7 @@ static int fts_strncmp(const char *cs, const char *ct, int count)
 	u8 c1 = 0, c2 = 0;
 
 	while (count) {
-		if  ((cs == '\0') || (ct == '\0'))
+		if  ((cs == NULL) || (ct == NULL))
 			return -1;
 		c1 = TOLOWER(*cs++);
 		c2 = TOLOWER(*ct++);
@@ -329,7 +329,7 @@ static void str_space_remove(char *str)
 	char *t = str;
 	char *s = str;
 
-	while (*t != '\0') {
+	while (*t != NULL) {
 		if (*t != ' ') {
 			*s = *t;
 			s++;
@@ -337,7 +337,7 @@ static void str_space_remove(char *str)
 		t++;
 	}
 
-	*s = '\0';
+	*s = NULL;
 }
 
 static void print_ini_data(struct ini_data *ini)
@@ -379,7 +379,7 @@ static int ini_get_line(char *filedata, char *line_data, int *line_len)
 	/* get a line data */
 	for (i = 0; i < MAX_INI_LINE_LEN; i++) {
 		if (('\n' == filedata[i]) || ('\r' == filedata[i])) {
-			line_data[line_length++] = '\0';
+			line_data[line_length++] = NULL;
 			if (('\n' == filedata[i + 1]) || ('\r' == filedata[i + 1])) {
 				line_length++;
 			}
@@ -398,7 +398,7 @@ static int ini_get_line(char *filedata, char *line_data, int *line_len)
 	str_space_remove(line_data);
 
 	/* confirm line type */
-	if (('\0' == line_data[0]) || ('#' == line_data[0])) {
+	if ((NULL == line_data[0]) || ('#' == line_data[0])) {
 		type = LINE_OTHER;
 	} else if ('[' == line_data[0]) {
 		type = LINE_SECTION;
@@ -443,9 +443,9 @@ static int ini_parse_keyword(struct ini_data *ini, char *line_buffer)
 		return -ENODATA;
 	}
 	memcpy(ini->tmp[offset].name, &line_buffer[0], i);
-	ini->tmp[offset].name[i] = '\0';
+	ini->tmp[offset].name[i] = NULL;
 	memcpy(ini->tmp[offset].value, &line_buffer[i + 1], length - i - 1);
-	ini->tmp[offset].value[length - i - 1] = '\0';
+	ini->tmp[offset].value[length - i - 1] = NULL;
 	section->keyword_num++;
 	ini->keyword_num_total++;
 
@@ -468,7 +468,7 @@ static int ini_parse_section(struct ini_data *ini, char *line_buffer)
 	}
 	section = &ini->section[ini->section_num];
 	memcpy(section->name, line_buffer + 1, length - 2);
-	section->name[length - 2] = '\0';
+	section->name[length - 2] = NULL;
 	FTS_TEST_INFO("section:%s, keyword offset:%d",
 				  section->name, ini->keyword_num_total);
 	section->keyword = (struct ini_keyword *)&ini->tmp[ini->keyword_num_total];
