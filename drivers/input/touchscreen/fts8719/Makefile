@@ -12,4 +12,3 @@ obj-$(CONFIG_TOUCHSCREEN_FTS)   +=  focaltech_test/
 
 
 obj-$(CONFIG_TOUCHSCREEN_FTS)   +=  focaltech_spi.o
-obj-$(CONFIG_TOUCHSCREEN_FTS)	+=  focaltech_flash.o
