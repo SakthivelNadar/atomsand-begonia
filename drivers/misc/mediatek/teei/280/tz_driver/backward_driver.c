@@ -192,7 +192,7 @@ static void reetime_deinit(struct service_handler *handler)
 int __reetime_handle(struct service_handler *handler)
 {
 	struct timeval tv;
-	void *ptr = NULL;
+	void *ptr;
 	int tv_sec;
 	int tv_usec;
 	unsigned long smc_type = 2;
@@ -200,7 +200,7 @@ int __reetime_handle(struct service_handler *handler)
 	int time_type = 0;
 
 	ptr = handler->param_buf;
-	Invalidate_Dcache_By_Area((unsigned long)ptr, ptr + 4);
+	Invalidate_Dcache_By_Area((unsigned long)ptr, (unsigned long)ptr + 4);
 	time_type = *((int *)ptr);
 	if (time_type == GET_UPTIME) {
 		get_monotonic_boottime(&tp);
@@ -267,7 +267,7 @@ int vfs_thread_function(unsigned long virt_addr,
 			unsigned long para_vaddr, unsigned long buff_vaddr)
 {
 	Invalidate_Dcache_By_Area((unsigned long)virt_addr,
-					virt_addr + VFS_SIZE);
+					(unsigned long)virt_addr + VFS_SIZE);
 	daulOS_VFS_share_mem = (unsigned char *)virt_addr;
 #ifdef VFS_RDWR_SEM
 	up(&VFS_rd_sem);
