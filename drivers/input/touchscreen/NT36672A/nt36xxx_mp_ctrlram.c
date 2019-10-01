@@ -2245,7 +2245,7 @@ static int nvt_open_test(void)
 			 * Ex. nvt_pid = 500A
 			 *     mpcriteria = "novatek-mp-criteria-500A"
 			 */
-			snprintf(mpcriteria, 64, "novatek-mp-criteria-%04X", ts->nvt_pid);
+			snprintf(mpcriteria, 32, "novatek-mp-criteria-%04X", ts->nvt_pid);
 
 			if (nvt_mp_parse_dt(np, mpcriteria)) {
 
